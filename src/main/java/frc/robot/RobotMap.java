@@ -1,6 +1,9 @@
 package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.wpilibj.I2C.Port;
 
 public class RobotMap {
     public RobotMap() {
@@ -17,6 +20,7 @@ public class RobotMap {
     public static TalonSRX leftMaster =new TalonSRX(leftMasterid);
     public static TalonSRX rightMaster =new TalonSRX(rightMasterid);
     public static TalonSRX rightFollower =new TalonSRX(rightFollower1id);
+    public static AHRS navX =new AHRS(Port.kMXP);
 
 
 
