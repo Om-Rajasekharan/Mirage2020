@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.sensors.Navx;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.tools.controlLoops.PID;
 
@@ -25,7 +26,8 @@ import frc.robot.tools.controlLoops.PID;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private double targetAngle;
-  private final PID orientation = new PID(1, 0, 0);
+  private final PID orientation = new PID(0.0079, 0.00000255, 0.008);
+  private Navx navx;
 
   
 
@@ -38,6 +40,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    RobotMap.navx.softResetAngle();
+
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.
@@ -84,10 +88,11 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    targetAngle = RobotMap.navX.getAngle() + 90;
+    targetAngle = RobotMap.navx.currentAngle() + 90;
+    
 
     
-  orientation.setSetPoint(RobotMap.navX.getAngle() + 90);
+  orientation.setSetPoint(RobotMap.imu.getAngle() + 90);
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -103,6 +108,8 @@ public class Robot extends TimedRobot {
     RobotMap.rightMaster.set(ControlMode.PercentOutput, orientation.getResult());
     RobotMap.leftMaster.set(ControlMode.PercentOutput, -orientation.getResult());
   SmartDashboard.putNumber("Target Angle", targetAngle);
+  orientation.updatePID(RobotMap.navx.currentAngle());
+  SmartDashboard.putNumber("Angle", RobotMap.navx.currentAngle());
 
   }
 
