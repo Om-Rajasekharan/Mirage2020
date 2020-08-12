@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.MotionMagicForward;
 import frc.robot.commands.Turn90;
 import frc.robot.sensors.Navx;
 import frc.robot.subsystems.DriveTrain;
@@ -59,6 +60,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+  SmartDashboard.putNumber("LeftEncoder", RobotMap.leftMaster.getSelectedSensorPosition() * 0.00169);
+  SmartDashboard.putNumber("RightEncoder", RobotMap.rightMaster.getSelectedSensorPosition() * 0.00169);
     // Runs the Scheduler. This is responsible for polling buttons, adding
     // newly-scheduled
     // commands, running already-scheduled commands, removing finished or
@@ -124,6 +127,10 @@ public class Robot extends TimedRobot {
     if(OI.driverController.getAButtonPressed()){
       Turn90 turn90 = new Turn90();
       turn90.schedule();
+    }
+    if(OI.driverController.getBackButtonPressed()){
+      MotionMagicForward motionmagicforward = new MotionMagicForward();
+      motionmagicforward.schedule();
     }
 
   }
