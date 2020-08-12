@@ -12,4 +12,12 @@ package frc.robot;
  */
 public class RobotStats {
     public static final double encoderTicksPerWheelRotation = 11170;
+    public static final double wheelDiam = 6;
+    public static final double wheelCircum = wheelDiam * Math.PI;
+    public static double ticksToInches(double ticks) {
+        return ticks / encoderTicksPerWheelRotation * wheelCircum;
+    }
+    public static double inchesToTicks(double inches) {
+       return wheelCircum / encoderTicksPerWheelRotation;
+    }
 }
