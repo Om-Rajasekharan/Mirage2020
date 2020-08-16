@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.OI;
 import frc.robot.RobotMap;
+import frc.robot.RobotStats;
 
 public class DriveTrain extends SubsystemBase {
   /**
@@ -26,6 +27,28 @@ public class DriveTrain extends SubsystemBase {
   public void teleopPeriodic(){
 
       tankDrive();
+  }
+  public static void initVPID(){
+    RobotMap.leftMaster.selectProfileSlot(0, 0);
+    RobotMap.leftMaster.config_kF(0, 0.1598);
+    RobotMap.leftMaster.config_kP(0,0);
+    RobotMap.leftMaster.config_kI(0,0);
+    RobotMap.leftMaster.config_kD(0,0);
+    RobotMap.rightMaster.selectProfileSlot(0,0);
+    RobotMap.rightMaster.config_kF(0, 0.1598);
+    RobotMap.rightMaster.config_kP(0,0);
+    RobotMap.rightMaster.config_kI(0,0);
+    RobotMap.rightMaster.config_kD(0,0);
+    RobotMap.rightMaster.configMotionCruiseVelocity(1600);
+    RobotMap.leftMaster.configMotionCruiseVelocity(1600);
+    RobotMap.rightMaster.configMotionAcceleration(3200);
+    RobotMap.leftMaster.configMotionAcceleration(3200);
+
+  }
+  public static void setSpeed(double targetVelocityFeet){
+    double targetVelocityTicks = RobotStats.inchesToTicks(targetVelocityFeet) / 12;
+    RobotMap.leftMaster.set(ControlMode.Velocity, targetVelocityTicks);
+    RobotMap.rightMaster.set(ControlMode.Velocity, targetVelocityTicks);
   }
   public void tankDrive(){
     double turn;

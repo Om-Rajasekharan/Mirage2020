@@ -41,6 +41,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     RobotMap.navx.softResetAngle();
+    DriveTrain.initVPID();
 
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
@@ -123,9 +124,16 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    driveTrain.tankDrive();
+
+    if(OI.driverController.getYButton()){
+      DriveTrain.setSpeed(3);
+    }
+    else {
+      driveTrain.tankDrive();
+    }
+    
     if(OI.driverController.getAButtonPressed()){
-      Turn90 turn90 = new Turn90();
+     Turn90 turn90 = new Turn90();
       turn90.schedule();
     }
     if(OI.driverController.getBackButtonPressed()){
