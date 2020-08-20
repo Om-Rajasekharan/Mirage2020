@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OI;
 import frc.robot.RobotMap;
+import frc.robot.RobotStats;
 
 public class MotionMagicForward extends CommandBase {
   /**
@@ -31,8 +32,8 @@ public class MotionMagicForward extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotMap.leftMaster.set(ControlMode.PercentOutput, 0.25);
-    RobotMap.rightMaster.set(ControlMode.PercentOutput, 0.25);
+    RobotMap.leftMaster.set(ControlMode.MotionMagic, RobotStats.inchesToTicks(24));
+    RobotMap.rightMaster.set(ControlMode.PercentOutput, RobotStats.inchesToTicks(24));
   }
 
   // Called once the command ends or is interrupted.
@@ -44,7 +45,7 @@ public class MotionMagicForward extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(OI.driverController.getXButtonPressed()){
+    if(OI.driverController.getXButton()){
       return true;
     }
     return false;
